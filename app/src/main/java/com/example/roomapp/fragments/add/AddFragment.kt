@@ -15,6 +15,7 @@ import com.example.roomapp.model.User
 import com.example.roomapp.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_add.*
 import kotlinx.android.synthetic.main.fragment_add.view.*
+import java.sql.Date
 
 class AddFragment : Fragment() {
 
@@ -40,27 +41,35 @@ class AddFragment : Fragment() {
         val firstName = addFirstName_et.text.toString()
         val lastName = addLastName_et.text.toString()
         val age = addAge_et.text
+        val dob = addDob_et.text
 
-        if(inputCheck(firstName, lastName, age)){
+        if (inputCheck(firstName, lastName, age, dob)) {
             // Create User Object
             val user = User(
                 0,
                 firstName,
                 lastName,
-                Integer.parseInt(age.toString())
+                Integer.parseInt(age.toString()),
+                Date.valueOf(dob.toString())
             )
             // Add Data to Database
             mUserViewModel.addUser(user)
             Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_LONG).show()
             // Navigate Back
             findNavController().navigate(R.id.action_addFragment_to_listFragment)
-        }else{
-            Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_LONG)
+                .show()
         }
     }
 
-    private fun inputCheck(firstName: String, lastName: String, age: Editable): Boolean{
-        return !(TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName) && age.isEmpty())
+    private fun inputCheck(
+        firstName: String,
+        lastName: String,
+        age: Editable,
+        dob: Editable
+    ): Boolean {
+        return !(TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName) && age.isEmpty() && dob.isEmpty())
     }
 
 }

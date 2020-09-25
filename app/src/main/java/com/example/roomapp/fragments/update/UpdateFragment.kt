@@ -16,6 +16,7 @@ import com.example.roomapp.model.User
 import com.example.roomapp.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_update.*
 import kotlinx.android.synthetic.main.fragment_update.view.*
+import java.sql.Date
 
 class UpdateFragment : Fragment() {
 
@@ -50,10 +51,11 @@ class UpdateFragment : Fragment() {
         val firstName = updateFirstName_et.text.toString()
         val lastName = updateLastName_et.text.toString()
         val age = Integer.parseInt(updateAge_et.text.toString())
+        val dob = Date.valueOf(updateDob_et.text.toString())
 
-        if (inputCheck(firstName, lastName, updateAge_et.text)) {
+        if (inputCheck(firstName, lastName, updateAge_et.text, updateDob_et.text)) {
             // Create User Object
-            val updatedUser = User(args.currentUser.id, firstName, lastName, age)
+            val updatedUser = User(args.currentUser.id, firstName, lastName, age, dob)
             // Update Current User
             mUserViewModel.updateUser(updatedUser)
             Toast.makeText(requireContext(), "Updated Successfully!", Toast.LENGTH_SHORT).show()
@@ -65,8 +67,13 @@ class UpdateFragment : Fragment() {
         }
     }
 
-    private fun inputCheck(firstName: String, lastName: String, age: Editable): Boolean {
-        return !(TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName) && age.isEmpty())
+    private fun inputCheck(
+        firstName: String,
+        lastName: String,
+        age: Editable,
+        dob: Editable
+    ): Boolean {
+        return !(TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName) && age.isEmpty() && dob.isEmpty())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -87,7 +94,8 @@ class UpdateFragment : Fragment() {
             Toast.makeText(
                 requireContext(),
                 "Successfully removed: ${args.currentUser.firstName}",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
             findNavController().navigate(R.id.action_updateFragment_to_listFragment)
         }
         builder.setNegativeButton("No") { _, _ -> }
