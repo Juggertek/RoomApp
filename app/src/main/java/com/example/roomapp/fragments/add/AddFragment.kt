@@ -3,11 +3,12 @@ package com.example.roomapp.fragments.add
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.roomapp.R
@@ -41,7 +42,7 @@ class AddFragment : Fragment() {
         val lastName = addLastName_et.text.toString()
         val age = addAge_et.text
 
-        if(inputCheck(firstName, lastName, age)){
+        if (inputCheck(firstName, lastName, age)) {
             // Create User Object
             val user = User(
                 0,
@@ -54,13 +55,14 @@ class AddFragment : Fragment() {
             Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_LONG).show()
             // Navigate Back
             findNavController().navigate(R.id.action_addFragment_to_listFragment)
-        }else{
-            Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_LONG)
+                .show()
         }
     }
 
-    private fun inputCheck(firstName: String, lastName: String, age: Editable): Boolean{
-        return !(TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName) && age.isEmpty())
+    private fun inputCheck(firstName: String, lastName: String, age: Editable): Boolean {
+        return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || age.isEmpty())
     }
 
 }
