@@ -69,7 +69,7 @@ class AddFragment : Fragment() {
         age: Editable,
         dob: Editable
     ): Boolean {
-        return !(TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName) && age.isEmpty() && dob.isEmpty())
+        return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || age.isEmpty() || dob.isEmpty())
     }
 
 }
