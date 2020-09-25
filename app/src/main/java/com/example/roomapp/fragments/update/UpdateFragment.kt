@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.roomapp.R
@@ -36,6 +35,7 @@ class UpdateFragment : Fragment() {
         view.updateFirstName_et.setText(args.currentUser.firstName)
         view.updateLastName_et.setText(args.currentUser.lastName)
         view.updateAge_et.setText(args.currentUser.age.toString())
+        view.updateDob_et.setText(args.currentUser.dob.toString())
 
         view.update_btn.setOnClickListener {
             updateItem()
@@ -51,11 +51,17 @@ class UpdateFragment : Fragment() {
         val firstName = updateFirstName_et.text.toString()
         val lastName = updateLastName_et.text.toString()
         val age = updateAge_et.text
-        val dob = Date.valueOf(updateDob_et.text.toString())
+        val dob = updateDob_et.text
 
-        if (inputCheck(firstName, lastName, updateAge_et.text, updateDob_et.text)) {
+        if (inputCheck(firstName, lastName, age, dob)) {
             // Create User Object
-            val updatedUser = User(args.currentUser.id, firstName, lastName, Integer.parseInt(age.toString()), dob)
+            val updatedUser = User(
+                args.currentUser.id,
+                firstName,
+                lastName,
+                Integer.parseInt(age.toString()),
+                Date.valueOf(dob.toString())
+            )
             // Update Current User
             mUserViewModel.updateUser(updatedUser)
             Toast.makeText(requireContext(), "Updated Successfully!", Toast.LENGTH_SHORT).show()
