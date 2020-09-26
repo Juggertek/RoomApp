@@ -53,22 +53,27 @@ class UpdateFragment : Fragment() {
         val age = updateAge_et.text
         val dob = updateDob_et.text
 
-        if (inputCheck(firstName, lastName, age, dob)) {
-            // Create User Object
-            val updatedUser = User(
-                args.currentUser.id,
-                firstName,
-                lastName,
-                Integer.parseInt(age.toString()),
-                Date.valueOf(dob.toString())
-            )
-            // Update Current User
-            mUserViewModel.updateUser(updatedUser)
-            Toast.makeText(requireContext(), "Updated Successfully!", Toast.LENGTH_SHORT).show()
-            // Navigate Back
-            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
-        } else {
-            Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT)
+        try {
+            if (inputCheck(firstName, lastName, age, dob)) {
+                // Create User Object
+                val updatedUser = User(
+                    args.currentUser.id,
+                    firstName,
+                    lastName,
+                    Integer.parseInt(age.toString()),
+                    Date.valueOf(dob.toString())
+                )
+                // Update Current User
+                mUserViewModel.updateUser(updatedUser)
+                Toast.makeText(requireContext(), "Updated Successfully!", Toast.LENGTH_SHORT).show()
+                // Navigate Back
+                findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            } else {
+                Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        } catch (e: IllegalArgumentException) {
+            Toast.makeText(requireContext(), "Please use format: YYYY-MM-DD", Toast.LENGTH_LONG)
                 .show()
         }
     }
