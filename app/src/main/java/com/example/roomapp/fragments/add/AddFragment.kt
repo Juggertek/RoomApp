@@ -50,7 +50,7 @@ class AddFragment : Fragment() {
                     0,
                     firstName,
                     lastName,
-                    Integer.parseInt(age.toString()),
+                    age.toString().toIntOrNull(),
                     Date.valueOf(dob.toString())
                 )
                 // Add Data to Database
@@ -64,8 +64,9 @@ class AddFragment : Fragment() {
                 Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_LONG)
                     .show()
             }
-        }catch (e: IllegalArgumentException){
-            Toast.makeText(requireContext(),"Please use format: YYYY-MM-DD",Toast.LENGTH_LONG).show()
+        } catch (e: IllegalArgumentException) {
+            Toast.makeText(requireContext(), "Please use format: YYYY-MM-DD", Toast.LENGTH_LONG)
+                .show()
         }
     }
 
@@ -75,7 +76,7 @@ class AddFragment : Fragment() {
         age: Editable,
         dob: Editable
     ): Boolean {
-        return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || age.isEmpty() || dob.isEmpty())
+        return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || dob.isEmpty())
     }
 
 }
