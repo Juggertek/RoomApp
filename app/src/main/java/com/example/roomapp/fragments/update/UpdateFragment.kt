@@ -2,7 +2,6 @@ package com.example.roomapp.fragments.update
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
 import android.view.*
 import android.widget.Toast
@@ -50,8 +49,8 @@ class UpdateFragment : Fragment() {
     private fun updateItem() {
         val firstName = updateFirstName_et.text.toString()
         val lastName = updateLastName_et.text.toString()
-        val age = updateAge_et.text
-        val dob = updateDob_et.text
+        val age = updateAge_et.text.toString()
+        val dob = updateDob_et.text.toString()
 
         try {
             if (inputCheck(firstName, lastName, age, dob)) {
@@ -60,8 +59,8 @@ class UpdateFragment : Fragment() {
                     args.currentUser.id,
                     firstName,
                     lastName,
-                    Integer.parseInt(age.toString()),
-                    Date.valueOf(dob.toString())
+                    Integer.parseInt(age),
+                    if (dob.isEmpty()) null else Date.valueOf(dob)
                 )
                 // Update Current User
                 mUserViewModel.updateUser(updatedUser)
@@ -81,8 +80,8 @@ class UpdateFragment : Fragment() {
     private fun inputCheck(
         firstName: String,
         lastName: String,
-        age: Editable,
-        dob: Editable
+        age: String,
+        dob: String
     ): Boolean {
         return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || age.isEmpty() || dob.isEmpty())
     }

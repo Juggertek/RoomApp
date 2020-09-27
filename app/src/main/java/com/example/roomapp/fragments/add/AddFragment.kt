@@ -1,7 +1,6 @@
 package com.example.roomapp.fragments.add
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -40,8 +39,8 @@ class AddFragment : Fragment() {
     private fun insertDataToDatabase() {
         val firstName = addFirstName_et.text.toString()
         val lastName = addLastName_et.text.toString()
-        val age = addAge_et.text
-        val dob = addDob_et.text
+        val age = addAge_et.text.toString()
+        val dob = addDob_et.text.toString()
 
         try {
             if (inputCheck(firstName, lastName, age, dob)) {
@@ -50,8 +49,8 @@ class AddFragment : Fragment() {
                     0,
                     firstName,
                     lastName,
-                    age.toString().toIntOrNull(),
-                    Date.valueOf(dob.toString())
+                    age.toIntOrNull(),
+                    if (dob.isEmpty()) null else Date.valueOf(dob)
                 )
                 // Add Data to Database
                 mUserViewModel.addUser(user)
@@ -73,10 +72,10 @@ class AddFragment : Fragment() {
     private fun inputCheck(
         firstName: String,
         lastName: String,
-        age: Editable,
-        dob: Editable
+        age: String,
+        dob: String
     ): Boolean {
-        return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || dob.isEmpty())
+        return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName))
     }
 
 }
